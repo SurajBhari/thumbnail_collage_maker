@@ -48,4 +48,8 @@ files = [fn for fn in listdir(path.join(cur_path, 'unique_thumbnails/'))]
 images = [path.join(cur_path, "unique_thumbnails/", file) for file in files if file.endswith('.jpg') and file.startswith(channel_id)]
 print('attempting to make a collage now')
 
-make_collage(images, path.join(cur_path, f'{channel_id}.png'), 1920, 1080)
+width = 4500 # you can change this accordingly
+init_height = 200 # same
+make_collage(images, path.join(cur_path, f'{channel_id}.png'), width, init_height)
+
+system(path.join(cur_path, f'{channel_id}.png'))
