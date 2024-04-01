@@ -3,7 +3,7 @@ import json
 from os import listdir, remove, path
 import requests
 from os import system, getcwd
-from difPy import dif
+import difPy
 from collage_maker import make_collage
 
 # channel_id = 'UCIzzPhdRf8Olo3WjiexcZSw'
@@ -11,21 +11,19 @@ channel_id = str(input("Enter Channel ID "))
 cur_path = getcwd()
 
 
-if channel_id + ".json" not in listdir(cur_path):
-    videos = scrapetube.get_channel(channel_id)
-    count = 0
-    x = {"data": []}
-    for video in videos:
-        x["data"].append(video)
+videos = scrapetube.get_channel(channel_id)
+count = 0
+x = {"data": []}
+for video in videos:
+    x["data"].append(video)
 
-    with open(path.join(cur_path, f"{channel_id}.json"), "w") as outfile:
-        json.dump(x, outfile, indent=4)
-        print("File Created")
-else:
-    print("File Already Exists")
-
+if not path.exists(path.join(cur_path, f"unique_thumbnails")):
+    system(f"mkdir {path.join(cur_path, 'unique_thumbnails')}")
 data = json.load(open(path.join(cur_path, f"{channel_id}.json")))
-files = listdir(path.join(cur_path, "unique_thumbnails"))
+try:
+    files = listdir(path.join(cur_path, "unique_thumbnails"))
+except FileNotFoundError:
+    files = []
 for file in files:
     if not file.startswith(channel_id):
         remove(path.join(path.join(cur_path, "unique_thumbnails", file)))
@@ -37,13 +35,19 @@ for video in data["data"]:
     url = video["thumbnail"]["thumbnails"][-1]["url"]
     id = video["videoId"]
     response = requests.get(url)
-    open(path.join(cur_path, f"unique_thumbnails/{channel_id}_{id}.jpg"), "wb").write(
+    file_name = path.join(cur_path, f"unique_thumbnails/{channel_id}_{id}.jpg")
+    open(file_name, "wb+").write(
         response.content
     )
+    print(f"stored {file_name}")
 
-search = dif(path.join(cur_path, "unique_thumbnails/"))
-for lower_quality in search.lower_quality:
-    remove(lower_quality)
+print("thumbnails downloaded")
+dif = difPy.build("unique_thumbnails")
+print("created difUCZy7vibLOxrNyngoHJByZfw")
+search = difPy.search(dif)
+search.delete(search, silent_del=False)
+print("deleted duplicates")
+
 
 files = [fn for fn in listdir(path.join(cur_path, "unique_thumbnails/"))]
 images = [
