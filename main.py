@@ -43,7 +43,7 @@ def main():
     print("thumbnails downloaded")
     dif = difPy.build(channel_id)
     search = difPy.search(dif)
-    search.delete()
+    search.delete(True)
     print("deleted duplicates")
 
     files = [fn for fn in listdir(path.join(cur_path, channel_id))]
