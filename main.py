@@ -40,18 +40,17 @@ def main():
 
     print("thumbnails downloaded")
     dif = difPy.build(channel_id)
-    print("created difUCZy7vibLOxrNyngoHJByZfw")
     search = difPy.search(dif)
-    search.delete(search)
+    search.delete()
     print("deleted duplicates")
 
-
-    files = [fn for fn in listdir(path.join(cur_path, "/"))]
+    files = [fn for fn in listdir(path.join(cur_path, channel_id))]
     images = [
         path.join(cur_path, channel_id, file)
         for file in files
         if file.endswith(".jpg") and file.startswith(channel_id)
     ]
+    print(images)
     print("attempting to make a collage now")
 
     width = 4500  # you can change this accordingly
