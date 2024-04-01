@@ -11,10 +11,12 @@ def main():
     channel_id = str(input("Enter Channel ID "))
     cur_path = getcwd()
 
-    videos = scrapetube.get_channel(channel_id)
-    data = []
-    for video in videos:
-        data.append(video)
+    contents_types = ['videos', 'shorts', 'streams']
+    for content_type in contents_types:
+        videos = scrapetube.get_channel(channel_id, content_type=content_type)
+        data = []
+        for video in videos:
+            data.append(video)
 
     if not path.exists(path.join(cur_path, channel_id)):
         system(f"mkdir {path.join(cur_path, channel_id)}")
@@ -50,7 +52,6 @@ def main():
         for file in files
         if file.endswith(".jpg") and file.startswith(channel_id)
     ]
-    print(images)
     print("attempting to make a collage now")
 
     width = 4500  # you can change this accordingly
