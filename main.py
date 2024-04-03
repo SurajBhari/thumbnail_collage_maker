@@ -30,10 +30,11 @@ def main():
     cur_path = getcwd()
 
     contents_types = ['videos', 'shorts', 'streams']
+    data = []
+
     for content_type in contents_types:
         print(f"Downloading {content_type}")
         videos = scrapetube.get_channel(channel_id, content_type=content_type)
-        data = []
         for video in videos:
             data.append(video)
         print(f"Downloaded {content_type} size -> {len(data)}")
