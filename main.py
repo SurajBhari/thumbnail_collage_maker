@@ -36,6 +36,7 @@ def main():
         data = []
         for video in videos:
             data.append(video)
+        print(f"Downloaded {content_type} size -> {len(data)}")
 
     if not path.exists(path.join(cur_path, channel_id)):
         system(f"mkdir {path.join(cur_path, channel_id)}")
@@ -75,6 +76,8 @@ def main():
     system(path.join(cur_path, f"{channel_id}.png"))
     print("collage created")
     if input("Do you want to delete the images? (y/n) ").lower() == "y":
+        for file in listdir(path.join(cur_path, channel_id)):
+            remove(path.join(cur_path, channel_id, file))
         removedirs(path.join(cur_path, channel_id))
         print("images deleted")
 if __name__ == "__main__":
